@@ -26,6 +26,16 @@ test3 = [[0,0,0,8,4,0,6,5,0],
          [6,0,0,0,0,0,0,4,0],
          [0,5,2,0,8,6,0,0,0]]
 
+class Node(object):
+	def __init__(self, state, children):
+		self.state = state
+		self.children = []
+
+	def appendChild(self, newState):
+		self.children.append(newState)
+
+	def getState(self):
+		return self.state
 
 #This code checks to see whether or not we are done solving the puzzle
 def goal_test(state):
@@ -45,10 +55,10 @@ def goal_test(state):
     ##Check for squares to be properly filled in
     if(len(state) == 6):
         for i in range(0,6,2):
-            if(not checkGrid(state,i,0)): 
-                return False  
-            if(not checkGrid(state,i,3)):  
-                return False            
+            if(not checkGrid(state,i,0)):
+                return False
+            if(not checkGrid(state,i,3)):
+                return False
     elif(len(state)==9):
         for horiz in range(0,3):
             for vert in range(0,3):
@@ -119,16 +129,6 @@ def createBoards(state, valueQueue):
 		boards.append(deepcopy(state))
 	return boards
 
-class Node(object):
-	def __init__(self, state, children):
-		self.state = state
-		self.children = []
-
-	def appendChild(self, newState):
-		self.children.append(newState)
-
-	def getState(self):
-		return self.state
 
 
 def printNode(node):
@@ -159,7 +159,7 @@ def breadth_first_search(state):
         # Remove from frontier, for analysis
         localChild = frontier.get()
         localState = localChild.state
-        
+
         possibleValues = getValues(localState)
         if (possibleValues == None):
         	print("No solution found")
@@ -174,6 +174,8 @@ def breadth_first_search(state):
             # Add every new child to the frontier
             frontier.put(Node(child,[]))
     return None
-printBoard(breadth_first_search(test1))
-printBoard(breadth_first_search(test2))
-printBoard(breadth_first_search(test3))
+
+if __name__ == '__main__':
+    printBoard(breadth_first_search(test1))
+    printBoard(breadth_first_search(test2))
+    printBoard(breadth_first_search(test3))
